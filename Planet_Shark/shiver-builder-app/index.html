@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Planet Shark - Shiver Builder</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Planet Shark - Shiver Builder</h1>
+            <div class="header-info">
+                <div class="points-info">
+                    <div>Points Used: <span id="points-used">0</span>/100</div>
+                    <div>Points Remaining: <span id="points-remaining">100</span></div>
+                </div>
+                <div class="shiver-name">
+                    <label for="shiver-name-input">Shiver Name:</label>
+                    <input type="text" id="shiver-name-input" placeholder="Enter your Shiver name">
+                </div>
+                <div class="import-export">
+                    <button id="export-btn">Export Shiver</button>
+                    <button id="import-btn">Import Shiver</button>
+                    <button id="save-btn">Save Shiver</button>
+                    <button id="load-btn">Load Shiver</button>
+                    <button id="print-btn">Print Summary</button>
+                    <button id="campaign-btn">Campaign Manager</button>
+                    <input type="file" id="import-file" accept=".json">
+                </div>
+            </div>
+        </header>
+
+        <div class="main-content">
+            <div class="sharkanoid-selector">
+                <div class="selector-header">
+                    <h2>Sharkanoids</h2>
+                </div>
+                <div class="template-selector">
+                    <select id="template-select">
+                        <option value="">-- Select Sharka --</option>
+                    </select>
+                    <button id="add-sharkanoid-btn">Add</button>
+                </div>
+                <div id="sharkanoid-list">
+                    <!-- Sharkanoids will be listed here -->
+                </div>
+            </div>
+
+            <div id="sharkanoid-details" class="sharkanoid-details" style="display: none;">
+                <div class="detail-header">
+                    <div class="detail-name-section">
+                        <input type="text" id="detail-name" placeholder="Sharkanoid Name">
+                        <div class="sharkanoid-type" id="detail-type">PUP</div>
+                        <div class="leader-checkbox">
+                            <input type="checkbox" id="detail-leader">
+                            <label for="detail-leader">Leader</label>
+                        </div>
+                    </div>
+                    <div class="delete-section">
+                        <button id="delete-sharkanoid-btn" class="danger">Delete Sharkanoid</button>
+                    </div>
+                </div>
+
+                <div class="stats-grid">
+                    <div class="stat-item">
+                        <div class="stat-name">Health</div>
+                        <div class="stat-value" id="detail-health">10</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-name">Speed</div>
+                        <div class="stat-value" id="detail-speed">6</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-name">Armor</div>
+                        <div class="stat-value" id="detail-armor">3</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-name">Melee Attack</div>
+                        <div class="stat-value" id="detail-melee">5</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-name">Range Attack</div>
+                        <div class="stat-value" id="detail-range">4</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-name">Actions</div>
+                        <div class="stat-value" id="detail-actions">2</div>
+                    </div>
+                </div>
+
+                <div class="stat-item">
+                    <div class="stat-name">Supply</div>
+                    <div class="stat-value" id="detail-supply">0/2</div>
+                </div>
+
+                <div class="special-ability">
+                    <div class="section-title">Special Ability</div>
+                    <div id="detail-special">None</div>
+                </div>
+                
+                <div id="honor-roll-result" class="honor-roll-result" style="display: none;">
+                    <div class="section-title">Honor Roll Result</div>
+                    <div id="detail-honor-roll">None</div>
+                </div>
+
+                <div class="weapons-section">
+                    <div class="section-title">Weapons</div>
+                    <div class="selector-row">
+                        <select id="weapon-select">
+                            <option value="">-- Select Weapon --</option>
+                        </select>
+                        <button id="add-weapon-btn">Add</button>
+                    </div>
+                    <div class="items-list" id="selected-weapons">
+                        <div class="none-selected">No weapons selected</div>
+                    </div>
+                </div>
+
+                <div class="equipment-section">
+                    <div class="section-title">Equipment</div>
+                    <div class="selector-row">
+                        <select id="equipment-select">
+                            <option value="">-- Select Equipment --</option>
+                        </select>
+                        <button id="add-equipment-btn">Add</button>
+                    </div>
+                    <div class="items-list" id="selected-equipment">
+                        <div class="none-selected">No equipment selected</div>
+                    </div>
+                </div>
+
+                <div class="extras-section">
+                    <div class="section-title">Extras</div>
+                    <div class="selector-row">
+                        <select id="extras-select">
+                            <option value="">-- Select Extras --</option>
+                        </select>
+                        <button id="add-extras-btn">Add</button>
+                    </div>
+                    <div class="items-list" id="selected-extras">
+                        <div class="none-selected">No extras selected</div>
+                    </div>
+                </div>
+
+                <div class="honors-section">
+                    <div class="section-title">Honors</div>
+                    <div class="selector-row">
+                        <select id="honors-select">
+                            <option value="">-- Select Honor --</option>
+                        </select>
+                        <button id="add-honor-btn">Add</button>
+                        <button id="roll-honor-btn" title="Veterans can roll for a free Honor">Roll Honor (Veterans)</button>
+                    </div>
+                    <div class="items-list" id="selected-honors">
+                        <div class="none-selected">No honors selected</div>
+                    </div>
+                </div>
+                
+                <div class="injuries-section">
+                    <div class="section-title">Injuries</div>
+                    <div class="selector-row">
+                        <input type="text" id="injury-name" placeholder="Enter injury description">
+                        <button id="add-injury-btn">Add Injury</button>
+                    </div>
+                    <div class="items-list" id="selected-injuries">
+                        <div class="none-selected">No injuries recorded</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Campaign Modal -->
+        <div id="campaign-modal" class="modal" style="display: none;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2>Campaign Manager</h2>
+                    <span class="close">&times;</span>
+                </div>
+                <div class="modal-body">
+                    <div class="campaign-tabs">
+                        <button class="tab-button active" data-tab="overview">Overview</button>
+                        <button class="tab-button" data-tab="battles">Battle History</button>
+                        <button class="tab-button" data-tab="add-battle">Add Battle</button>
+                        <button class="tab-button" data-tab="sharkanoid-stats">Sharkanoid Stats</button>
+                    </div>
+
+                    <!-- Campaign Overview Tab -->
+                    <div id="overview-tab" class="tab-content active">
+                        <div class="campaign-info">
+                            <div class="info-row">
+                                <label for="campaign-name">Campaign Name:</label>
+                                <input type="text" id="campaign-name" placeholder="Enter campaign name">
+                            </div>
+                            <div class="info-row">
+                                <label for="campaign-description">Description:</label>
+                                <textarea id="campaign-description" placeholder="Campaign description"></textarea>
+                            </div>
+                        </div>
+                        <div class="campaign-stats">
+                            <div class="stat-box">
+                                <div class="stat-number" id="total-battles">0</div>
+                                <div class="stat-label">Total Battles</div>
+                            </div>
+                            <div class="stat-box">
+                                <div class="stat-number" id="victories">0</div>
+                                <div class="stat-label">Victories</div>
+                            </div>
+                            <div class="stat-box">
+                                <div class="stat-number" id="defeats">0</div>
+                                <div class="stat-label">Defeats</div>
+                            </div>
+                            <div class="stat-box">
+                                <div class="stat-number" id="draws">0</div>
+                                <div class="stat-label">Draws</div>
+                            </div>
+                            <div class="stat-box">
+                                <div class="stat-number" id="total-experience">0</div>
+                                <div class="stat-label">Total XP</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Battle History Tab -->
+                    <div id="battles-tab" class="tab-content">
+                        <div id="battle-list">
+                            <div class="no-battles">No battles recorded yet</div>
+                        </div>
+                    </div>
+
+                    <!-- Add Battle Tab -->
+                    <div id="add-battle-tab" class="tab-content">
+                        <div class="battle-form">
+                            <div class="form-row">
+                                <label for="battle-name">Battle Name:</label>
+                                <input type="text" id="battle-name" placeholder="Enter battle name">
+                            </div>
+                            <div class="form-row">
+                                <label for="battle-opponent">Opponent:</label>
+                                <input type="text" id="battle-opponent" placeholder="Enemy shiver name">
+                            </div>
+                            <div class="form-row">
+                                <label for="battle-scenario">Scenario:</label>
+                                <input type="text" id="battle-scenario" placeholder="Scenario played">
+                            </div>
+                            <div class="form-row">
+                                <label for="battle-result">Result:</label>
+                                <select id="battle-result">
+                                    <option value="">-- Select Result --</option>
+                                    <option value="victory">Victory</option>
+                                    <option value="defeat">Defeat</option>
+                                    <option value="draw">Draw</option>
+                                </select>
+                            </div>
+                            <div class="form-row">
+                                <label for="battle-experience">Experience Gained:</label>
+                                <input type="number" id="battle-experience" min="0" value="0">
+                            </div>
+                            <div class="form-row">
+                                <label for="battle-notes">Notes:</label>
+                                <textarea id="battle-notes" placeholder="Battle notes and memorable moments"></textarea>
+                            </div>
+                            <div class="sharkanoid-participation">
+                                <h3>Sharkanoid Participation</h3>
+                                <div id="participation-list">
+                                    <!-- Will be populated with current shiver -->
+                                </div>
+                            </div>
+                            <button id="save-battle-btn">Save Battle</button>
+                        </div>
+                    </div>
+
+                    <!-- Sharkanoid Stats Tab -->
+                    <div id="sharkanoid-stats-tab" class="tab-content">
+                        <div id="campaign-sharkanoid-list">
+                            <div class="no-stats">No campaign data available</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            <div class="rules-reference">
+                <div class="section-title">Special Rules Reference</div>
+                <div class="rules-grid">
+                    <div class="rule-item">
+                        <strong>ARMOR PIERCING [X] - [AP]:</strong> Subtract [x] amount from defender's armor stat for the attack.
+                    </div>
+                    <div class="rule-item">
+                        <strong>BLAST [X]:</strong> If the attack hits apply the hits from the attack to every Sharkanoid within [x].
+                    </div>
+                    <div class="rule-item">
+                        <strong>COVER GUN:</strong> If the gun hits you may create a 4"x.75" wall that is 1" high from that point. The wall disappears at the end of the round.
+                    </div>
+                    <div class="rule-item">
+                        <strong>CRITICAL [X]:</strong> When attacking if the attacker rolls a 1 on the attack dice the defender receives [x] amount of damage instead of the normal damage.
+                    </div>
+                    <div class="rule-item">
+                        <strong>HEAVY:</strong> May not use this equipment/weapon if the Sharkanoid has moved or will move as one of their actions during their turn.
+                    </div>
+                    <div class="rule-item">
+                        <strong>NO TALKING:</strong> Any Sharkanoid hit by this weapon loses 1 of their actions points during the next round and a boop on the snoot.
+                    </div>
+                    <div class="rule-item">
+                        <strong>PUSH [X]:</strong> Any Sharkanoid hit by this weapon is placed [x]" directly away from the attacker.
+                    </div>
+                    <div class="rule-item">
+                        <strong>RECOIL [X]:</strong> After a Sharkanoid attacks with this weapon they are pushed [x]" directly away from the target.
+                    </div>
+                    <div class="rule-item">
+                        <strong>STAPLE:</strong> Any Sharkanoid hit by this weapon does not get to take the move action next round.
+                    </div>
+                    <div class="rule-item">
+                        <strong>TRANSPORT:</strong> Any Sharkanoid hit by this weapon may be immediately placed anywhere within 7" and within line of sight of the attacker.
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Game data and helper files -->
+    <script src="js/game-data.js"></script>
+    <script src="js/types.js"></script>
+    <script src="js/dom-helpers.js"></script>
+    <!-- Main application -->
+    <script src="js/app.js"></script>
+</body>
+</html>
